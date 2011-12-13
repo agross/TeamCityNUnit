@@ -22,7 +22,7 @@ task Test -Depends TeamCity, Compile, Clean {
 
   Get-ChildItem -Path source/**/bin -Recurse -Include Tests*.dll | `
     ForEach-Object {
-      exec { &("$nunit/nunit-console.exe") /nologo /xml:test-results/$($_.Name).html $_ }
+      exec { &("$nunit/nunit-console.exe") /nologo /xml:test-results/$($_.Name).xml $_ }
     }
 }
 
