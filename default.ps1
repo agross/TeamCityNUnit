@@ -9,5 +9,8 @@ task Compile -Depends Clean {
 }
 
 task Clean {
-  "Clean"
+  foreach ($glob in ('source/**/bin', 'source/**/obj'))
+  {
+    Remove-Item $glob -recurse -force -ErrorAction SilentlyContinue
+  }
 }
