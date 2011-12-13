@@ -1,4 +1,6 @@
-task default -depends Compile
+$framework = '4.0'
+
+task default -depends Test
 
 task Test -Depends Compile, Clean {
   New-Item test-results -Type Directory
