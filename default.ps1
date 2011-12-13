@@ -2,6 +2,10 @@ $framework = '4.0'
 $nunit = './packages/NUnit.2.5.10.11092/tools'
 
 # IMPORTANT: We need to use ${env:blah} because the environent variable contains dots. I <3 PowerShell.
+#
+# Please see TeamCity Configuration.png, it shows how to set up the required NUnit environent variable
+# for PowerShell.
+#
 $running_in_teamcity = ${env:teamcity.dotnet.nunitaddin} -ne $null
 
 task default -depends Test
