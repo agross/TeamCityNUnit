@@ -5,7 +5,7 @@ task Test -Depends Compile, Clean {
 }
 
 task Compile -Depends Clean {
-  exec { msbuild /t:Clean /t:Build /v:q /nologo TeamCityNUnit.sln }
+  exec { msbuild /target:Build /nologo /verbosity:Quiet TeamCityNUnit.sln }
 }
 
 task Clean {
