@@ -1,13 +1,28 @@
 $framework = '4.0'
+$nunit = './packages/NUnit.2.5.10.11092/tools'
+
+# IMPORTANT: We need to use ${env:blah} because the environent variable contains dots. I <3 PowerShell.
+$running_in_teamcity = ${env:teamcity.dotnet.nunitaddin} -ne $null
 
 task default -depends Test
 
-task Test -Depends Compile, Clean {
-  New-Item test-results -Type Directory
+task TeamCity -precondition { return $running_in_teamcity } {
+  $regex = [regex]"(?i)NUnit\.(?<Version>\d+\.\d+\.\d+)\.\d+"
+  $nunit -match $regex
+  $nunitVersion = $matches.Version
   
+  New-Item $nunit\addins -Type Directory -Force
+    
+  $teamCityAddinPath = ${env:teamcity.dotnet.nunitaddin}
+  Copy-Item $teamCityAddinPath-$nunitVersion.* -Destination $nunit\addins
+}
+
+task Test -Depends TeamCity, Compile, Clean {
+  New-Item test-results -Type Directory
+
   Get-ChildItem -Path source/**/bin -Recurse -Include Tests*.dll | `
     ForEach-Object {
-      exec { .\packages\NUnit.2.5.10.11092\tools\nunit-console.exe /nologo /xml:test-results\$($_.Name).html $_ }
+      exec { &("$nunit/nunit-console.exe") /nologo /xml:test-results/$($_.Name).html $_ }
     }
 }
 
