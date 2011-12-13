@@ -1,0 +1,6 @@
+/source/*/obj
+/source/*/bin
+_ReSharper.*
+*.user
+*.suo
+*mm_cache.bin
