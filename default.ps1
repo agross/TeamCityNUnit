@@ -11,9 +11,10 @@ $running_in_teamcity = ${env:teamcity.dotnet.nunitaddin} -ne $null
 task default -depends Test
 
 task TeamCity -precondition { return $running_in_teamcity } {
-  $regex = [regex]"(?i)NUnit\.(?<Version>\d+\.\d+\.\d+)\.\d+"
-  $nunit -match $regex
-  $nunitVersion = $matches.Version
+  $framework = $nunit + '../nunit.framework.dll'
+  $name = [System.Reflection.AssemblyName]::GetAssemblyName($framework)
+
+  $nunitVersion = $name.Version.ToString(3)
   
   New-Item $nunit\addins -Type Directory -Force
     
