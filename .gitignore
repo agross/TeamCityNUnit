@@ -3,5 +3,6 @@
 _ReSharper.*
 *.user
 *.suo
+*.cache
 *mm_cache.bin
 test-results
