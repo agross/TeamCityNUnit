@@ -31,7 +31,7 @@ task Test -Depends TeamCity, Compile, Clean {
 }
 
 task Compile -Depends Clean {
-  Exec { msbuild /target:Build /nologo /verbosity:Quiet TeamCityNUnit.sln }
+  Exec { msbuild /target:Build /nologo /verbosity:Minimal TeamCityNUnit.sln }
 }
 
 task Clean {
