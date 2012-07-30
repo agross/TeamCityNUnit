@@ -25,14 +25,12 @@ task TeamCity -precondition { return $running_in_teamcity } {
 task Test -Depends TeamCity, Compile, Clean {
   New-Item test-results -Type Directory
 
-  Get-ChildItem -Path source/**/bin -Recurse -Include Tests*.dll | `
-    ForEach-Object {
-      exec { &("$nunit/nunit-console.exe") /nologo /xml:test-results/$($_.Name).xml $_ }
-    }
+  $tests = Get-ChildItem -Path source/**/bin -Recurse -Include Tests*.dll
+  Exec { & "$nunit/nunit-console.exe" /nologo /xml:test-results/test.xml $tests }
 }
 
 task Compile -Depends Clean {
-  exec { msbuild /target:Build /nologo /verbosity:Quiet TeamCityNUnit.sln }
+  Exec { msbuild /target:Build /nologo /verbosity:Quiet TeamCityNUnit.sln }
 }
 
 task Clean {
