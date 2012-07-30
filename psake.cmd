@@ -1,6 +1,6 @@
 @echo off
 
-set psake=packages\psake.4.0.1.0\tools\psake.ps1
+set psake=packages\psake.4.2.0.1\tools\psake.ps1
 
 if '%1'=='/?' goto help
 if '%1'=='-help' goto help
